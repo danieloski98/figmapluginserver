@@ -11,6 +11,10 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const config_1 = require("@nestjs/config");
+const mongoose_1 = require("@nestjs/mongoose");
+const json_reader_service_1 = require("./globalservices/json-reader/json-reader.service");
+const person_module_1 = require("./person/person.module");
+require('dotenv').config();
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
@@ -18,10 +22,13 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
+                envFilePath: '.env'
             }),
+            mongoose_1.MongooseModule.forRoot(process.env.MONGODB_URI),
+            person_module_1.PersonModule
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [app_service_1.AppService, json_reader_service_1.JsonReaderService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
